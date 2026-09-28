@@ -1,22 +1,33 @@
-# 20-bit-RISC-dual-immediate-single-cycle-CPU
+# 20-bit-RISC-dual-immediate-single-cycle-CPU（已完成单周期设计，已通过测试程序√）
 logisim-20bit-risc-cpu
 
-基于 Logisim 仿真的 20 位精简指令集双立即数单周期 CPU。
+基于 Logisim 仿真的 20 位精简指令集双立即数单周期 CPU。（已完成单周期设计，已通过测试程序）
 
 A 20-bit RISC dual-immediate single-cycle CPU simulated in Logisim.
 
 ## 文件说明
 
-
 > 当前电路文件显示为 `finalresult.circ` / `最终结果.circ`，以仓库实际文件名为准。
+
+## 项目说明
+
+本项目基于Logisim从零设计并实现了一款20位定长指令集的单周期CPU。为在有限的20位指令空间内兼顾指令密度与灵活性，自主设计了“双立即数复用机制”：(算术左右移和逻辑左右移指令)部分采用五位立即数，跳转和算数运算采用八位立即数，并支持采用通过寄存器编码与funct字段拼接扩展立即数范围。项目完成了指令译码，数据通路，控制器设计，并通过自编二进制测试程序在logisim上验证了：跳转，算书术，逻辑运算等核心功能。
+
+## 设计亮点
+
+1.指令格式4 4 4 5 3，opcode(4)+rs(4)+rt(4)+rd/imm5(5)+funct(3)(opcode(4)+rs(4)+rt(4)+imm8(8))
+2.双立即数机制：同一套路数据通路，根据指令类型匹配选择五位或者八位立即数，降低指令长度冗余
+3.寄存器编码位置复用：5位rd编码：在移位运算中作为立即数，在其余非跳转运算中作为目标寄存器，在跳转指令中与funct所占的三位组合为8位立即数。
+4.数据通路：完成PC更新，指令译码，寄存器堆读写，ALU运算，；立即数扩展与选择等模块。
 
 ## 特性
 
+- 仿mips指令架构
 - 20-bit 数据通路/地址空间
 - RISC 风格指令集
-- 双立即数字段
 - 单周期执行
 - Logisim 仿真实现
+- “双立即数复用”机制
 
 ## 使用方法
 
@@ -28,6 +39,12 @@ A 20-bit RISC dual-immediate single-cycle CPU simulated in Logisim.
 ## 开发日志
 
 后续计划整理到 `docs/devlog/`。
+
+## 未来改进
+
+1.加入数据冒险与控制冒险处理机制
+2.扩展为多周期cpu或者流水线结构
+3.增加中断与异常支持
 
 ## License
 
